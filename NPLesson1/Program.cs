@@ -16,13 +16,20 @@ namespace NPLesson1
             { 
                 if (socket.Connected) 
                 {
+                    Console.WriteLine("Подключение было успешным.\n");
                     byte[] buffer = new byte[1024];
                     string sender = "GET\r\n";
                     socket.Send(Encoding.ASCII.GetBytes(sender));
                     //int answer = socket.Send(buffer, 0, buffer.Length, SocketFlags.None);
-                    socket.Receive(buffer);
-                    string ans = Encoding.ASCII.GetString(buffer);
-                    Console.WriteLine("Подключение было успешным.\n" + ans);
+                    int c;
+                    string ans;
+                    do
+                    {
+                        c = socket.Receive(buffer);
+                        ans = Encoding.ASCII.GetString(buffer);
+                        Console.WriteLine(ans);
+                    }
+                    while (c > 0);
                 }
             }
             catch(Exception ex) 
